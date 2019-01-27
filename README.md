@@ -7,8 +7,6 @@ Initially, you will need to install git.
 Then, to download the content of this repository you must type `git clone https://github.com/jhubscher/Concordia.git` or `git@github.com:jhubscher/Concordia.git` into your terminal.
 
 ## Contributing
-----
-
 If you have updated or newer resources that you'd like to add to the repo, you will need to;
   1. Install `git` and `git-lfs`.
   2. Register for a Github account and setup your SSH key with your Github account.
