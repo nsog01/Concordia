@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-15" standalone="no"?>
+
+<program programid="M1" name="M1" datetext="10/06/15" timestamp="2015-10-06T17:33:55-04:00" partial="false" asl="false">
+   <srcdir srcdirid="1" name="">
+      <srcfile srcfileid="1" name="CompilerError.java">
+         <module moduleid="2" name="CompilerError.CompilerError(java.io.File,int,int,java.lang.String,boolean)"/>
+                  <module moduleid="3" name="CompilerError.CompilerError(java.lang.String,boolean)"/>
+                  <module moduleid="8" name="CompilerError.toString()"/>
+                  <module moduleid="28" name="CompilerError.file()"/>
+                  <module moduleid="5" name="CompilerError.fileName()"/>
+                  <module moduleid="70" name="CompilerError.lineNumber()"/>
+                  <module moduleid="71" name="CompilerError.startColumn()"/>
+                  <module moduleid="7" name="CompilerError.message()"/>
+                  <module moduleid="6" name="CompilerError.isWarning()"/>
+                  <module moduleid="4" name="CompilerError.compareTo(java.lang.Object)"/>
+                  <module moduleid="30" name="CompilerError.compareByPosition(CompilerError)"/>
+               </srcfile>
+      <srcfile srcfileid="2" name="CompilerErrorModel.java">
+         <module moduleid="32" name="CompilerErrorModel.CompilerErrorModel(CompilerError[],javax.swing.text.Document,java.io.File)"/>
+                  <module moduleid="9" name="CompilerErrorModel.CompilerErrorModel()"/>
+                  <module moduleid="11" name="CompilerErrorModel.getErrorsWithPositions()"/>
+                  <module moduleid="12" name="CompilerErrorModel.getErrorsWithoutPositions()"/>
+                  <module moduleid="14" name="CompilerErrorModel.getPositions()"/>
+                  <module moduleid="10" name="CompilerErrorModel.getDocument()"/>
+                  <module moduleid="13" name="CompilerErrorModel.getFile()"/>
+                  <module moduleid="48" name="CompilerErrorModel._groupErrors(CompilerError[])"/>
+                  <module moduleid="58" name="CompilerErrorModel._createPositionsArray()"/>
+               </srcfile>
+      <srcfile srcfileid="3" name="CompilerProxy.java">
+         <module moduleid="15" name="CompilerProxy.CompilerProxy(java.lang.String,java.lang.ClassLoader)"/>
+                  <module moduleid="33" name="CompilerProxy._recreateCompiler()"/>
+                  <module moduleid="16" name="CompilerProxy.compile(java.io.File,java.io.File[])"/>
+                  <module moduleid="54" name="CompilerProxy.isAvailable()"/>
+                  <module moduleid="35" name="CompilerProxy.getName()"/>
+                  <module moduleid="17" name="CompilerProxy.toString()"/>
+               </srcfile>
+      <srcfile srcfileid="4" name="CompilerRegistry.java">
+         <module moduleid="18" name="CompilerRegistry.CompilerRegistry()"/>
+                  <module moduleid="61" name="CompilerRegistry.setBaseClassLoader(java.lang.ClassLoader)"/>
+                  <module moduleid="44" name="CompilerRegistry.getBaseClassLoader()"/>
+                  <module moduleid="55" name="CompilerRegistry.registerCompiler(java.lang.String)"/>
+                  <module moduleid="65" name="CompilerRegistry.getAvailableCompilers()"/>
+                  <module moduleid="20" name="CompilerRegistry.isNoCompilerAvailable()"/>
+                  <module moduleid="45" name="CompilerRegistry.setActiveCompiler(CompilerInterface)"/>
+                  <module moduleid="42" name="CompilerRegistry.getActiveCompiler()"/>
+                  <module moduleid="36" name="CompilerRegistry._registerDefaultCompilers()"/>
+                  <module moduleid="79" name="CompilerRegistry._instantiateCompiler(java.lang.String)"/>
+                  <module moduleid="85" name="CompilerRegistry.createCompiler(java.lang.Class)"/>
+                  <module moduleid="19" name="CompilerRegistry._getToolsJarURLs()"/>
+               </srcfile>
+      <srcfile srcfileid="5" name="CompilerRegistryTest.java">
+         <module moduleid="21" name="CompilerRegistryTest.CompilerRegistryTest(java.lang.String)"/>
+                  <module moduleid="23" name="CompilerRegistryTest.suite()"/>
+                  <module moduleid="22" name="CompilerRegistryTest.setUp()"/>
+                  <module moduleid="24" name="CompilerRegistryTest.tearDown()"/>
+                  <module moduleid="27" name="CompilerRegistryTest.testLimitOneByOne()"/>
+                  <module moduleid="26" name="CompilerRegistryTest.testLimitAllAtOnce()"/>
+                  <module moduleid="25" name="CompilerRegistryTest.testActiveCompilerAllAvailable()"/>
+                  <module moduleid="47" name="CompilerRegistryTest._getCompilersAfterDisablingOne(int)"/>
+                  <module moduleid="56" name="CompilerRegistryTest._getCompilersAfterDisablingSome(int[])"/>
+               </srcfile>
+   </srcdir>
+</program>

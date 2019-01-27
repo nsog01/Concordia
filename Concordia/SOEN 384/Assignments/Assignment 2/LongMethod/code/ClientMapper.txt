@@ -1,0 +1,5 @@
+			byte[] thumbBytes = set.getBytes(8);
+			if (thumbBytes != null) {
+				in = new ByteArrayInputStream(thumbBytes);
+				thumb = ImageIO.read(in);
+			}

@@ -1,0 +1,18 @@
+domain.mappers.files.HouseholdMapper	public domain.files.Household insert(domain.PersistentObject) 	dep	B1	0/11
+domain.mappers.files.HouseholdMapper	public domain.files.Household insert(domain.PersistentObject) 	dep	B3	0/8
+domain.mappers.files.HouseholdMapper	public domain.files.Household insert(domain.PersistentObject) 	dep	B4	0/6
+domain.mappers.files.HouseholdMapper	public domain.files.Household insert(domain.PersistentObject) 	dep	B5	0/4
+domain.mappers.files.HouseholdMapper	public domain.files.Household insert(domain.PersistentObject) 	dep	B6	0/3
+domain.mappers.files.HouseholdMapper	public domain.files.Household insert(domain.PersistentObject) 	dep	B7	0/2
+domain.mappers.files.ClientMapper	static domain.files.Client map(java.sql.ResultSet) 	thumb	B7	0/4
+domain.mappers.files.ClientMapper	static domain.files.Client map(java.sql.ResultSet) 	thumb	B8	0/2
+domain.mappers.files.ClientMapper	static domain.files.Client map(java.sql.ResultSet) 	second	B3	0/3
+domain.mappers.files.ClientMapper	static domain.files.Client map(java.sql.ResultSet) 	image	B6	0/2
+domain.mappers.files.AppointmentMapper	private static domain.Appointments.Appointment map(java.sql.ResultSet, domain.files.Client, domain.files.Household) 	departure	B1	1/5
+domain.mappers.files.AppointmentMapper	private static domain.Appointments.Appointment map(java.sql.ResultSet, domain.files.Client, domain.files.Household) 	departure	B3	0/3
+domain.mappers.files.AppointmentMapper	private static domain.Appointments.Appointment map(java.sql.ResultSet, domain.files.Client, domain.files.Household) 	arrival	B1	1/5
+domain.mappers.files.AppointmentMapper	public static domain.Appointments.Appointment readByBadge(java.lang.String) 	set	B1	1/3
+domain.mappers.files.ClientMapper	static domain.files.Client map(java.sql.ResultSet) 	imageBytes	B1	1/3
+domain.mappers.files.FlagMapper	public static domain.files.Flag get(int) 	set	B1	1/3
+domain.mappers.files.FlagMapper	public static void addToHousehold(domain.files.Household) 	set	B1	1/3
+domain.mappers.files.NoteMapper	public domain.PersistentObject read(int) 	set	B1	1/3

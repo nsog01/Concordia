@@ -1,0 +1,54 @@
+	public void update(Client client) {
+		try {
+			ClientTDG.update(client.getId(), client.getFirstName(),
+					client.getMiddleName(), client.getLastName(),
+					client.getDOB(), client.getSex().toString(),
+					client.getMedicare(), client.getMotherTongueId(),
+					client.getSecondLanguageId(), client.getPhoto(),
+					client.getThumb(),					
+					client.getMaritalStatus().toString(),
+					client.getWorkStatus().toString(),
+					client.getExtraWorkStatusField(),
+					client.getCanadianStatus().toString(),
+					client.getExtraCanadianStatusField(),
+					client.getOrigin().toString(),
+					client.getExtraOriginField(),
+					client.getReferral().toString(),
+					client.getReferralExtra(),
+					client.getReason().toString(),
+					client.getReasonExtra(),
+					client.getRegistrationDate()	);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	public void updateWithoutPhoto(Client client) {
+		try {
+			ClientTDG.updateWithoutPhoto(client.getId(), client.getFirstName(),
+					client.getMiddleName(), client.getLastName(),
+					client.getDOB(), client.getSex().toString(),
+					client.getMedicare(), client.getMotherTongueId(),
+					client.getSecondLanguageId(),
+					client.getMaritalStatus().toString(),
+					client.getWorkStatus().toString(),
+					client.getExtraWorkStatusField(),
+					client.getCanadianStatus().toString(),
+					client.getExtraCanadianStatusField(),
+					client.getOrigin().toString(),
+					client.getExtraOriginField(),
+					client.getReferral().toString(),
+					client.getReferralExtra(),
+					client.getReason().toString(),
+					client.getReasonExtra(),
+					client.getRegistrationDate());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}

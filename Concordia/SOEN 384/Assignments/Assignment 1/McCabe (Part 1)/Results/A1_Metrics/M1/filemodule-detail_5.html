@@ -1,0 +1,501 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Summary for M1</title>
+<meta content="IE=EmulateIE7" http-equiv="X-UA-Compatible">
+<script src="js/mochikit/MochiKit.js" type="text/javascript"></script><script src="js/plotkit/excanvas.js" type="text/javascript"></script><script src="js/plotkit/Base.js" type="text/javascript"></script><script src="js/plotkit/Layout.js" type="text/javascript"></script><script src="js/plotkit/Canvas.js" type="text/javascript"></script><script src="js/plotkit/SweetCanvas.js" type="text/javascript"></script><script src="js/sortabletable/sortabletable.js" type="text/javascript"></script><script src="js/sortabletable/percentsorttype.js" type="text/javascript"></script>
+<link href="css/sortabletable.css" rel="StyleSheet" type="text/css">
+<script type="text/javascript">
+           var tabberOptions = { 'manualStartup': true }; 
+        </script><script src="js/tabber/tabber.js" type="text/javascript"></script>
+<link media="screen" href="css/tabber.css" rel="StyleSheet" type="text/css">
+<script src="js/prototype/prototype.js" type="text/javascript"></script><script src="js/scriptaculous/scriptaculous.js" type="text/javascript"></script><script src="js/modalbox/modalbox.js" type="text/javascript"></script>
+<link media="screen" type="text/css" href="css/modalbox.css" rel="stylesheet">
+<script src="js/protomenu/proto.menu.js" type="text/javascript"></script>
+<link media="screen" type="text/css" href="css/proto.menu.css" rel="stylesheet">
+<script src="js/generalscripts.js" type="text/javascript"></script>
+<link href="css/generalstyles.css" rel="StyleSheet" type="text/css">
+<script type="text/javascript">
+           Event.observe(window, "load", function() { 
+          
+          
+           makeSortable("standardmetricsummarytable", ["None", "None", "None", "Number", "None"], 1); 
+           makeSortable("standardmetrictable", ["String", "Number", "Number", "Number", "Number"], 1); 
+           makeSortable("standardrisktable", ["String", "Number", "Number", "Number", "Number"], 2); 
+           makeSortable("linecoveragesummarytable", ["None", "None", "None", "None", "None"], 1); 
+           makeSortable("branchcoveragesummarytable", ["None", "None", "None", "None", "None"], 1); 
+           makeSortable("pathcoveragesummarytable", ["None", "Number", "None", "None", "None"], 1); 
+           makeSortable("linecoveragetable", ["String", "Number", "Number", "Percent", "None"], 1); 
+           makeSortable("branchcoveragetable", ["String", "Number", "Number", "Percent", "None"], 1); 
+           makeSortable("pathcoveragetable", ["String", "Number", "Number", "Percent", "None"], 1); 
+          
+          
+           drawriskpie("riskpie", "standardrisktable", "numhighrisk", "nummedrisk",
+          9
+          );          
+           drawriskpie("dashboardriskpie", "standardrisktable", null, null,
+          9
+          );
+          
+          
+           drawlinehistogrambar("dashboardlinebar",
+          7
+          ,
+          1
+          ,
+          1
+          ,
+          0
+          ,
+          0
+          ,
+          0
+          ,
+          0
+          ,
+          0
+          );
+          
+          
+           drawtestbar("dashboardtestbar",
+          0
+          ,
+          0
+          ,
+          0
+          );
+          
+          
+           activateProperTabs(); 
+           tabberAutomatic(tabberOptions); 
+
+          
+           modalifyAslAnchors(); 
+          
+           }); 
+        </script>
+</head>
+<body>
+<table class="detailpage" width="100%">
+<thead>
+<tr>
+<td class="detailpageheading">
+<table width="100%">
+<colgroup>
+<col width="75%">
+<col width="25%">
+</colgroup>
+<tr>
+<td>
+<div class="detailpagetitle">McCabe IQ Report for  Program: M1</div>
+<div class="timestamp">Last Metrics Update: 10/06/15</div>
+</td><td>
+<table class="stats">
+<tr>
+<td class="totalslabel" rowspan="3">Program Totals</td><td rowspan="3">&nbsp;</td><td>Directories:</td><td class="right">1</td><td rowspan="3">&nbsp;</td><td class="separator" rowspan="3">&nbsp;</td><td>Lines: </td><td class="right">320</td>
+</tr>
+<tr>
+<td>Files:</td><td class="right">5</td><td>Branches:</td><td class="right">126</td>
+</tr>
+<tr>
+<td>Modules:</td><td class="right">47</td><td>Paths: </td><td class="right">89</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td>
+<hr class="horizontalseparator">
+<table onclick="window.open('http://www.mccabe.com')" class="footer explicitlinkpointer">
+<tr>
+<td><img alt="McCabeIQ" src="images/mccabe_iq.gif"></td><td class="top">Report by McCabe IQ<br>McCabe Software, Inc.</td>
+</tr>
+</table>
+</td>
+</tr>
+</tfoot>
+<tbody>
+<tr class="top">
+<td>
+<div class="tabber">
+<div id="dashboardtab" class="tabbertab">
+<h2>Dashboard</h2>
+<p></p>
+<table class="generaltable">
+<col width="32%">
+<col width="2%">
+<col width="32%">
+<col width="2%">
+<col width="32%">
+<tr class="top">
+<td colspan="5"><b>File CompilerRegistryTest.java<br>
+</b>9 module(s)</td>
+</tr>
+<tr>
+<td colspan="5">&nbsp;</td>
+</tr>
+<tr>
+<td>Size (Lines)</td><td rowspan="3" class="verticalseparator">&nbsp;</td><td>Risk</td><td rowspan="3" class="verticalseparator">&nbsp;</td><td>Coverage</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>
+<div class="dashboardchart">
+<canvas height="200" width="400" id="dashboardlinebar"></canvas>
+</div>
+</td><td>
+<div class="dashboardchart">
+<canvas height="200" width="200" id="dashboardriskpie"></canvas>
+</div>
+</td><td>
+<div class="dashboardchart">
+<canvas height="200" width="200" id="dashboardtestbar"></canvas>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="stdtab" class="tabbertab">
+<h2>Standard</h2>
+<p></p>
+<div class="tabber">
+<div id="stddetailstab" class="tabbertab">
+<h3>Details</h3>
+<p></p>
+<table cellspacing="0" id="standardmetricsummarytable" class="sort-table">
+<thead>
+<tr>
+<td class="rowname">File</td><td class="center rowvalue">Cyclomatic Complexity</td><td class="center rowvalue">Essential Complexity</td><td class="center rowvalue">Design Complexity</td><td class="center rowvalue">Lines</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.java - 9 module(s)">CompilerRegistryTest.java - 9 module(s)</td><td class="right">16</td><td class="right">12</td><td class="right">14</td><td class="right">64</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table cellspacing="0" id="standardmetrictable" class="sort-table">
+<thead>
+<tr>
+<td class="rowname">Modules</td><td class="center rowvalue">Cyclomatic Complexity</td><td class="center rowvalue">Essential Complexity</td><td class="center rowvalue">Design Complexity</td><td class="center rowvalue">Lines</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.CompilerRegistryTest(java.lang.String)">CompilerRegistryTest.CompilerRegistryTest(java.lang.String)</td><td class="right">1</td><td class="right">1</td><td class="right">1</td><td class="right">3</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.suite()">CompilerRegistryTest.suite()</td><td class="right">1</td><td class="right">1</td><td class="right">1</td><td class="right">3</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.setUp()">CompilerRegistryTest.setUp()</td><td class="right">1</td><td class="right">1</td><td class="right">1</td><td class="right">4</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.tearDown()">CompilerRegistryTest.tearDown()</td><td class="right">1</td><td class="right">1</td><td class="right">1</td><td class="right">3</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitOneByOne()">CompilerRegistryTest.testLimitOneByOne()</td><td class="right">2</td><td class="right">1</td><td class="right">2</td><td class="right">5</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitAllAtOnce()">CompilerRegistryTest.testLimitAllAtOnce()</td><td class="right">2</td><td class="right">1</td><td class="right">2</td><td class="right">12</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testActiveCompilerAllAvailable()">CompilerRegistryTest.testActiveCompilerAllAvailable()</td><td class="right">2</td><td class="right">1</td><td class="right">2</td><td class="right">10</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingOne(int)">CompilerRegistryTest._getCompilersAfterDisablingOne(int)</td><td class="right">1</td><td class="right">1</td><td class="right">1</td><td class="right">3</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingSome(int[])">CompilerRegistryTest._getCompilersAfterDisablingSome(int[])</td><td class="right">5</td><td class="right">4</td><td class="right">3</td><td class="right">21</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="stdrisktab" class="tabbertab">
+<h3>Risk</h3>
+<p></p>
+<table class="generaltable">
+<col width="85%">
+<col width="1%">
+<col width="14%">
+<tr>
+<td>Risky modules within CompilerRegistryTest.java<br>
+<table class="generaltable">
+<tr>
+<td>Total number of modules in CompilerRegistryTest.java: </td><td class="right">9</td>
+</tr>
+<tr>
+<td>Number of high risk: </td><td class="right" id="numhighrisk">0</td>
+</tr>
+<tr>
+<td>Number of medium risk: </td><td class="right" id="nummedrisk">0</td>
+</tr>
+</table>
+<br>Risk Criteria:<table class="generaltable">
+<tr>
+<td>High:</td><td>Essential Complexity &gt; 4</td>
+</tr>
+<tr>
+<td>Medium:</td><td>Cyclomatic Complexity &gt; 10</td>
+</tr>
+</table>
+</td><td class="verticalseparator">&nbsp;</td><td>
+<div class="riskchart">
+<canvas height="150" width="150" id="riskpie"></canvas>
+</div>
+</td>
+</tr>
+</table>
+<br>
+<table cellspacing="0" id="standardrisktable" class="sort-table">
+<thead>
+<tr>
+<td class="rowname">Modules</td><td class="center rowvalue">Cyclomatic Complexity</td><td class="center rowvalue">Essential Complexity</td><td class="center rowvalue">Design Complexity</td><td class="center rowvalue">Lines</td>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="covtab" class="tabbertab">
+<h2>Coverage</h2>
+<p></p>
+<div class="tabber">
+<div id="linecovtab" class="tabbertab">
+<h3>Line</h3>
+<p></p>
+<table cellspacing="0" id="linecoveragesummarytable" class="sort-table">
+<thead>
+<tr>
+<td class="rowbarname">File</td><td class="center rowvalue">Lines</td><td class="center rowvalue">Lines Tested</td><td class="center rowvalue">Percentage Tested</td><td class="center rowbar">&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.java - 9 module(s)">CompilerRegistryTest.java - 9 module(s)</td><td class="right">64</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table cellspacing="0" id="linecoveragetable" class="sort-table">
+<thead>
+<tr>
+<td class="rowbarname">Modules</td><td class="center rowvalue">Lines</td><td class="center rowvalue">Lines Tested</td><td class="center rowvalue">Percentage Tested</td><td class="rowbar">&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.CompilerRegistryTest(java.lang.String)">CompilerRegistryTest.CompilerRegistryTest(java.lang.String)</td><td class="right">3</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.suite()">CompilerRegistryTest.suite()</td><td class="right">3</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.setUp()">CompilerRegistryTest.setUp()</td><td class="right">4</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.tearDown()">CompilerRegistryTest.tearDown()</td><td class="right">3</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitOneByOne()">CompilerRegistryTest.testLimitOneByOne()</td><td class="right">5</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitAllAtOnce()">CompilerRegistryTest.testLimitAllAtOnce()</td><td class="right">12</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testActiveCompilerAllAvailable()">CompilerRegistryTest.testActiveCompilerAllAvailable()</td><td class="right">10</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingOne(int)">CompilerRegistryTest._getCompilersAfterDisablingOne(int)</td><td class="right">3</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingSome(int[])">CompilerRegistryTest._getCompilersAfterDisablingSome(int[])</td><td class="right">21</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="branchcovtab" class="tabbertab">
+<h3>Branch</h3>
+<p></p>
+<table cellspacing="0" id="branchcoveragesummarytable" class="sort-table">
+<thead>
+<tr>
+<td class="rowbarname">File</td><td class="center rowvalue">Branches</td><td class="center rowvalue">Branches Tested</td><td class="center rowvalue">Percentage Tested</td><td class="rowbar">&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.java - 9 module(s)">CompilerRegistryTest.java - 9 module(s)</td><td class="right">23</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table cellspacing="0" id="branchcoveragetable" class="sort-table">
+<thead>
+<tr>
+<td class="rowbarname">Modules</td><td class="center rowvalue">Branches</td><td class="center rowvalue">Branches Tested</td><td class="center rowvalue">Percentage Tested</td><td class="rowbar">&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.CompilerRegistryTest(java.lang.String)">CompilerRegistryTest.CompilerRegistryTest(java.lang.String)</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.suite()">CompilerRegistryTest.suite()</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.setUp()">CompilerRegistryTest.setUp()</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.tearDown()">CompilerRegistryTest.tearDown()</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitOneByOne()">CompilerRegistryTest.testLimitOneByOne()</td><td class="right">3</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitAllAtOnce()">CompilerRegistryTest.testLimitAllAtOnce()</td><td class="right">3</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testActiveCompilerAllAvailable()">CompilerRegistryTest.testActiveCompilerAllAvailable()</td><td class="right">3</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingOne(int)">CompilerRegistryTest._getCompilersAfterDisablingOne(int)</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingSome(int[])">CompilerRegistryTest._getCompilersAfterDisablingSome(int[])</td><td class="right">9</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="pathcovtab" class="tabbertab">
+<h3>Path</h3>
+<p></p>
+<table cellspacing="0" id="pathcoveragesummarytable" class="sort-table">
+<thead>
+<tr>
+<td class="rowbarname">File</td><td class="center rowvalue">Paths</td><td class="center rowvalue">Paths Tested</td><td class="center rowvalue">Percentage Tested</td><td class="rowbar">&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.java - 9 module(s)">CompilerRegistryTest.java - 9 module(s)</td><td class="right">16</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table cellspacing="0" id="pathcoveragetable" class="sort-table">
+<thead>
+<tr>
+<td class="rowbarname">Modules</td><td class="center rowvalue">Paths</td><td class="center rowvalue">Paths Tested</td><td class="center rowvalue">Percentage Tested</td><td class="rowbar">&nbsp;</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td title="CompilerRegistryTest.CompilerRegistryTest(java.lang.String)">CompilerRegistryTest.CompilerRegistryTest(java.lang.String)</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.suite()">CompilerRegistryTest.suite()</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.setUp()">CompilerRegistryTest.setUp()</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.tearDown()">CompilerRegistryTest.tearDown()</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitOneByOne()">CompilerRegistryTest.testLimitOneByOne()</td><td class="right">2</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testLimitAllAtOnce()">CompilerRegistryTest.testLimitAllAtOnce()</td><td class="right">2</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest.testActiveCompilerAllAvailable()">CompilerRegistryTest.testActiveCompilerAllAvailable()</td><td class="right">2</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingOne(int)">CompilerRegistryTest._getCompilersAfterDisablingOne(int)</td><td class="right">1</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+<tr>
+<td title="CompilerRegistryTest._getCompilersAfterDisablingSome(int[])">CompilerRegistryTest._getCompilersAfterDisablingSome(int[])</td><td class="right">5</td><td class="right">0</td><td class="right">0.00%</td><td>
+<div class="testgraph"></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

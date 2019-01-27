@@ -1,0 +1,9 @@
+.asl_highlight {
+  color: rgb(139,0,0);
+  font-weight: bold;
+}
+
+.freq_highlight {
+  color: rgb(0,139,139);
+  font-weight: bold;
+}

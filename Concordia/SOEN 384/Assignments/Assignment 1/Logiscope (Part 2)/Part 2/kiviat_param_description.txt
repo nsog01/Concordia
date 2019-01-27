@@ -1,0 +1,35 @@
+calculatePositions:
+
+- ct_nest;Maximum number of control structure nested levels in a function.
+
+- ct_vg;Cyclomatic number of the control graph of the function
+In the graph theory the Cyclomatic number V(g) gives the number of linearly
+independent paths in a connected graph. 
+
+- lc_stat;Number of executable statements in the function.
+
+- n2;Number of different operands used in the function.
+
+- struc_pg;
+
+
+getErrorAtOffset:
+
+
+- n2;Number of different operands used in the function.
+- lc_stat;Number of executable statements in the function.
+- ct_vg;Cyclomatic number of the control graph of the function
+In the graph theory the Cyclomatic number V(g) gives the number of linearly
+independent paths in a connected graph. 
+- ct_npath; Number of non-cyclic execution paths.
+It is calculated according to the transfers of control induced by the various
+types of statement. The PATH for a sequence of statements with the same nesting
+level is the product of each statement's PATH. For nested structures the
+sum of the PATH is calculated.
+Therefore:
+	PATH (if then else endif) = PATH (body of then) + PATH (body of else)
+	PATH (while do - endwhile) = PATH (body of while) + 1
+	PATH (case of - endcase) = SUM(i=1n) PATH (body of ist case)
+where n is the number of cases.
+	PATH (sequence) = 1
+- struc_pg;

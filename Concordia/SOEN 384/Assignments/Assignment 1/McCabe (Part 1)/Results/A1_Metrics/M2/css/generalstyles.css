@@ -1,0 +1,129 @@
+body {
+  font-family: Verdana, Helvetica, Arial, Sans-Serif;
+  font: Message-Box;
+}
+
+code {
+  font-size: 1em;
+}
+
+.hide {
+  display: none;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.top {
+  vertical-align: top;
+}
+
+.listing {
+  font-family: Verdana, Helvetica, Arial, Sans-Serif;
+  font: Message-Box;
+}
+
+.listing td, .sort-table tbody td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.totalslabel {
+  font-weight: bold;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.rowname {
+  width: 60%;
+}
+
+.rowvalue {
+  width: 10%;
+}
+
+.rowbarname {
+  width: 40%;
+}
+
+.rowbar {
+  width: 30%;
+}
+
+.detailpageheading {
+  background-color: ButtonFace;
+  border: 1px Solid ThreeDShadow;
+}
+
+.detailpagetitle {
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.red, .red a {
+  color: rgb(160,0,0);
+}
+
+.yellow, .yellow a {
+  color: rgb(218,165,32);
+}
+
+.timestamp, .stats, .footnote {
+  font-size: 8pt;
+}
+
+.footer {
+  font-size: 6pt;
+}
+
+.horizontalseparator {
+  border: none;
+  height: 1px;
+  color: ThreeDShadow;
+  background-color: ThreeDShadow;
+}
+
+.verticalseparator {
+  border-left: 1px Solid ThreeDShadow;
+}
+
+.generaltable {
+    font:       Icon;
+    background-color: Window;
+    color:      WindowText;
+}
+
+.testgraph {
+  border: 1px Solid ThreeDShadow;
+  background-color: Window;
+  height: 12px;
+}
+
+.testgraphimg {
+  height: 12px;
+}
+
+.explicitlinkpointer {
+  cursor: pointer;
+}
+
+/* Print-specific settings */
+@media print {
+  /* Hide tab navigation list */
+  .tabbernav {
+    display: none;
+  }
+  /* Set explicit height for JS charts */
+  .dashboardchart {
+    height: 200px;
+  }
+  .riskchart {
+    height: 150px;
+  }
+}
