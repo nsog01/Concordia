@@ -1,0 +1,2 @@
+Though modeling and verifying Multi-Agent Systems (MASs) have long been under study, there are still challenges when many different aspects need to be considered simultaneously. In fact, various frameworks have been carried out for modeling and verifying MASs with respect to knowledge and social
+commitments independently. However, considering them under the same framework still needs further investigation, particularly from the verification perspective. In this article, we present a new technique for model checking the logic of knowledge and commitments.

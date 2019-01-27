@@ -1,0 +1,20 @@
+ -----------------
+ Symbol | Location
+ -------+---------
+ ELSE   |   12B
+ LOOP   |   100
+ T      |   12C
+ THEN   |   122
+ U      |   12D
+ V      |   12E
+ answer |   12F
+ base   |   130
+ equal  |   133
+ exclam |   135
+ plus   |   132
+ prompt |   131
+ space  |   134
+ t      |   136
+ u      |   137
+ v      |   138
+

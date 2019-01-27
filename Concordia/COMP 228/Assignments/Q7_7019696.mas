@@ -1,0 +1,80 @@
+org 100
+
+LOOP,   load space
+	output
+
+	load prompt
+	output                        // Displays ">"
+
+	load space
+	output
+
+	input
+	store T
+	output                       // Displays user input value
+
+	load space
+	output
+
+	load plus
+	output 			     // Display "+"
+
+	load space
+	output
+
+	input			     // Displays user second input
+	store U
+	output
+
+	add T			     // adds the two values and stores them in C
+	store V
+
+	load space
+	output
+
+	load equal		     // Displays "="
+	output
+
+	load space
+	output
+
+	load V
+	subt base
+	output			     // Displays the sum
+
+	input
+	store answer
+	subt exclam		    // Compares input to !, if equal, program halts, else, program loops
+	Skipcond 400
+	
+	jump ELSE
+	
+THEN,   load space
+	output
+	
+	load t
+	output
+
+	load u
+	output
+
+	load v
+	output
+
+	halt
+
+ELSE, 	jump LOOP
+
+T, dec 0
+U, dec 0
+V, dec 0
+answer, dec 0
+base, dec 48
+prompt, dec 62
+plus, dec 43
+equal, dec 61
+space, dec 32
+exclam, dec 33
+t, dec 66
+u, dec 89
+v, dec 69

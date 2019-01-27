@@ -1,0 +1,3 @@
+Social commitments have long been recognized as an important concept for multi-agent systems. 
+We propose a rich formulation of social commitments that motivates an architecture for multi-agent systems, 
+which we dub spheres of commitment

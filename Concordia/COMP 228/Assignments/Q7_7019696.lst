@@ -1,0 +1,110 @@
+     Assembly listing for: Q7_7019696.mas
+                Assembled: Sun Mar 23 23:25:19 EDT 2014
+
+         |         ORG 100           
+         |                          
+100 1134 |  LOOP   LOAD space        
+101 6000 |         OUTPUT            
+         |                          
+102 1131 |         LOAD prompt       
+103 6000 |         OUTPUT           // Displays ">"
+         |                          
+104 1134 |         LOAD space        
+105 6000 |         OUTPUT            
+         |                          
+106 5000 |         INPUT             
+107 212C |         STORE T           
+108 6000 |         OUTPUT           // Displays user input value
+         |                          
+109 1134 |         LOAD space        
+10A 6000 |         OUTPUT            
+         |                          
+10B 1132 |         LOAD plus         
+10C 6000 |         OUTPUT           // Display "+"
+         |                          
+10D 1134 |         LOAD space        
+10E 6000 |         OUTPUT            
+         |                          
+10F 5000 |         INPUT            // Displays user second input
+110 212D |         STORE U           
+111 6000 |         OUTPUT            
+         |                          
+112 312C |         ADD T            // adds the two values and stores them in C
+113 212E |         STORE V           
+         |                          
+114 1134 |         LOAD space        
+115 6000 |         OUTPUT            
+         |                          
+116 1133 |         LOAD equal       // Displays "="
+117 6000 |         OUTPUT            
+         |                          
+118 1134 |         LOAD space        
+119 6000 |         OUTPUT            
+         |                          
+11A 112E |         LOAD V            
+11B 4130 |         SUBT base         
+11C 6000 |         OUTPUT           // Displays the sum
+         |                          
+11D 5000 |         INPUT             
+11E 212F |         STORE answer      
+11F 4135 |         SUBT exclam      // Compares input to !, if equal, program halts, else, program loops
+120 8400 |         SKIPCOND 400      
+         |                          	
+121 912B |         JUMP ELSE         
+         |                          	
+122 1134 |  THEN   LOAD space        
+123 6000 |         OUTPUT            
+         |                          	
+124 1136 |         LOAD t            
+125 6000 |         OUTPUT            
+         |                          
+126 1137 |         LOAD u            
+127 6000 |         OUTPUT            
+         |                          
+128 1138 |         LOAD v            
+129 6000 |         OUTPUT            
+         |                          
+12A 7000 |         HALT              
+         |                          
+12B 9100 |  ELSE   JUMP LOOP         
+         |                          
+12C 0000 |  T      DEC 0             
+12D 0000 |  U      DEC 0             
+12E 0000 |  V      DEC 0             
+12F 0000 |  answer DEC 0             
+130 0030 |  base   DEC 48            
+131 003E |  prompt DEC 62            
+132 002B |  plus   DEC 43            
+133 003D |  equal  DEC 61            
+134 0020 |  space  DEC 32            
+135 0021 |  exclam DEC 33            
+136 0042 |  t      DEC 66            
+137 0059 |  u      DEC 89            
+138 0045 |  v      DEC 69            
+
+Assembly successful.
+
+         SYMBOL TABLE
+         --------------------------------------------------
+          Symbol | Defined | References 
+         --------+---------+-------------------------------
+          ELSE   |   12B   | 121
+          LOOP   |   100   | 12B
+          T      |   12C   | 107, 112
+          THEN   |   122   | 
+          U      |   12D   | 110
+          V      |   12E   | 113, 11A
+          answer |   12F   | 11E
+          base   |   130   | 11B
+          equal  |   133   | 116
+          exclam |   135   | 11F
+          plus   |   132   | 10B
+          prompt |   131   | 102
+          space  |   134   | 100, 104, 109, 10D, 114, 118, 
+                 |         | 122
+          t      |   136   | 124
+          u      |   137   | 126
+          v      |   138   | 128
+         --------------------------------------------------
+
+
