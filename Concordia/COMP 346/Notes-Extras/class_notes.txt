@@ -1,0 +1,1557 @@
+Operating Systems
+-----------------
+
+Application Software:
+- play, click, end
+- ex: video game
+
+System Software:
+- interacting software to create other higher software applications
+- ex: compilers, database systems, OS
+
+Operating Systems:
+- system software
+- lowest software in the system
+	-> below is the hardware
+	-> interacts with hardware
+
+What is an OS? SOFTWARE
+
+User -> System + Application software -> hardware
+
+
+Resource Abstraction
+--------------------
+
+Resource:
+- hardware component than an application program might use
+- has a generic interface that defines how a programmer can make the resource perform a desired operation
+- ex: mouse, keyboard, monitor
+
+How do you write into memory? 
+	Load (block, length, device)
+	Seek (device, track)
+	Out (device, sector)
+
+To write into memory you have to do what the memory/device understands
+
+Create one method instead of 3 using ABSTRACTION
+
+write (*block. length, track, sector)
+{
+	...
+}
+
+
+
+Resource Sharing
+----------------
+- Abstract and physical resourced shared
+
+Space multiplexing:
+- based on space shared in memory
+
+Time multiplexing:
+- each resource is allocated a certain amount of time
+- ex: a printer
+
+
+
+Multiprogramming
+----------------
+- time multiplex CPU + space multiplex main memory
+
+Execution time:
+- Uniprogramming: t1 + t2 + t3 + t4 = total time
+- Multiprogramming: largest value of time of all programs
+
+- resource sharing is a security issue:
+	-> use a guard (isolation between program in memory)
+	
+
+
+Operating Systems Strategies
+----------------------------
+
+Batch systems:
+- collection of jobs
+
+Timesharing Systems:
+- Worry about:
+	- abstraction
+	- security issue -> running on same machine
+	- fairness, distribution of resources fairly
+	
+Multitasking: timesharing + multiprogramming
+
+Personal computers + workstations
+
+
+
+Bootstrap Loader
+----------------
+- loaded at power-up or reboot
+- stored in ROM
+- initializes computer system, loads OS kernel, start execution
+
+
+
+Operating system: lowest software, closest to hardware
+
+
+Device controller
+-----------------
+- OS deals with controllers specific to a device
+- every device has a controller
+	- printer controller, disk controller
+	- 2 identical disks can be controlled by 1 controller
+- connected to memory (memory controller by system bus)
+
+
+Printing a file
+---------------
+- poll device if free
+- if free, move file from main memory to controller memory
+- controller passes file to printer to print
+- if data is too big, move file part by part
+
+- OS doesn't know how to communicate with controller -> install device driver
+
+Device driver: installed as OS, configurable
+
+Kernel: heart of operating system
+
+
+
+Printing w/ Polling
+-------------------
+- Device driver polls controller
+- Transfer data from main memory to controller memory (takes up a lot of time)
+- keep polling
+	- register for out of paper, paper jam, completed job (takes up a lot of time)
+	
+*CPU is busy executing the device driver (without interrupt)
+
+
+Printing with Interrupts
+------------------------
+- Device driver polls controller
+- Transfer data from main memory to controller memory (takes up a lot of time)
+- When job is done
+	- send interrupt signal to CPU (interrupt register set to 1)
+	- interrupt handler will be executed 
+		- check each device to find out who sent interrupt
+	- device found, call device driver
+- Time lost executing interrupt handler is trivial compared to polling device (ADVANTAGE)
+
+
+
+Printing with DMA
+-----------------
+- include CPU with software in device controller (DMA)
+- give address and length of file
+- copy data from main memory to memory in controller
+- saves time, CPU no longer responsible to execute D.D to transfer
+- Direct Memory Access Controller (added CPU in controller)
+- Problem
+	- CPU fights CPU in DMA for system bus
+	- DMA waits for any moment the bus is free
+	- Bus stealing by DMA
+	- if bus is busy, DMA CPU will wait until end of current cycle then retake the bus
+	
+TL;DR Printing
+--------------
+- save time on FILE TRANSFER using DMA
+- save time on POLLING using INTERRUPTS
+- DMA disadvantage: time DMA bus stealing > time CPU would use to transfer file
+
+File is small, polling is small
+- interrupt handler is executed (context switch)
+- interrupt handler searches through devices
+- D.D is called to stop device
+- only advantageous if polling time > time to interrupt
+
+
+
+System call
+------------
+
+Prevent user process from occupying memory of OS = mode bit
+
+Mode bit
+- each process has a mode bit
+- 1 is OS process, 0 is for user process
+- OS process can access user process
+
+Problem:
+- user: print();
+- OS:   print() {
+		    ...
+		}
+* abstraction cannot be called from user because mode bit not set (cannot access OS because OS is responsible for I/O)
+
+Solution:
+- trap (software generated interrupt caused by error or user request)
+- change mode bit to 1 to access OS
+- restrict to only access location needed in memory
+- when finished, change mode bit back to 0
+- system call
+
+Message passing
+- user process send message to OS process
+- get a reply from OS to user
+
+System call:
+- ADVANTAGEOUS for speed
+
+Message passing
+- create, send message
+- context switch to OS
+- OS creates process, sends reply, kill process
+
+System call
+- security problem
+	- find a bug or crash a function
+	- still have access to OS (mode bit still changed)
+	
+Why is print() running as OS process?
+- OS controls I/O
+- If user has access to I/O device, can change what can be printed
+
+
+Mailbox (communication between 2 users on same system)
+------------------------------------------------------
+*cannot send message t another user's space
+
+Option 1: Ask OS to take message from User1 and send to User2
+- Problem: message can be destroyed/overwritten before it is seen by user2
+
+Option 2: Take message, store in OS, send notification to user2
+- Storage is an issue (not a problem, can claim memory back_
+- Time is an issue -> copying messages (user1 -> OS -> user2)
+
+- create message
+- send notifaction
+- using pointer manipulation, allow receiver to read
+	- problem: modifying/deleting
+		- receiver did not read it yet
+		- sender modifies/deletes message
+		- 3 copies will be created
+		
+
+
+Process: Program text (code), resources, data, process status
+
+Running time = context switch
+
+Context switch:
+- switching from process1 to process2
+- take snapshot of registers
+- when loading back into CPU, set registers to saved snapshot (as if nothing happened)
+
+
+
+Threads
+-------
+
+Single-thread: a process
+Multithreaded: sharing code, data and files between threads
+
+*crash 1 thread, all will crash
+
+Thread:
+- context switch is extremely fast
+- speed up execution of a process
+
+Multithreading models:
+- Many-to-one
+	- many user threads mapped to one kernel (OS) thread
+	- only one thread can be serviced by kernel at a time
+- 1-to-1
+	- maps each user thread to a kernel thread
+	- mutliple threads
+	- creation of a thread requires the creation of a kernel thread
+- Many-to-many (best)
+	- # of kernel threads smaller or equal to user threads
+	
+	
+Thread creation
+---------------
+
+class Worker extends Thread
+{
+	public void run() {
+		...
+	}
+}
+
+public class First 
+{
+	public static void main (String[] args) {
+		Worker worker = new Worker();
+		worker.start();
+	}
+}
+
+*never call run() method, thread might not be fully created
+* start() makes sure thread is fully crfeated then calls run()
+
+public interface Runnable
+{
+	public abstract void run();
+}
+
+class Worker implements Runnable
+{
+	public void run() {
+		...
+	}
+}
+
+public class Second
+{
+	public static void main (String[] args) {
+		Runnable runner = new Worker();
+		Thread thread = new Thread(runner);
+		thread.start();
+	}
+}
+
+
+Thread Management
+-----------------
+
+New -> (Start) -> Runnable
+Runnable -> (Sleep, Suspend, I/O) -> Blocked
+Blocked -> (Resume) -> Runnable
+Runnable -> (Stop) -> Dead
+
+
+
+Process Synchronization
+-----------------------
+
+Deposit (amt)
+{
+	bal = bal + amt
+}
+
+bal = bal + amt
+Lod r1, bal
+Load r2, amt
+Add R1, R2
+Store R1, bal
+
+Withdraw (amt)
+{
+	bal = bal - amt
+}
+
+Bal = bal + amt
+Load R1, bal
+Load R2, amt
+Sub R1,R2
+Store R1, bal
+
+
+
+Run processes at same time
+- allowing interrupts -> causes error (loss of $$)
+
+
+Critical section
+- don't let interrupts in this section
+	- disable interrupts before C.S.
+	- enable interrupts after C.S.
+- can be FATAL (infinite loop in C.S., no other processes running)
+
+
+Lock concept
+------------
+
+Ps1			Ps2
+Lock		Lock
+C.S.		C.S.
+Unlock		Unlock
+
+
+Lock = F;
+
+getLock() {
+	D.I.
+	while (lock == T) P
+		E.I
+		yield();
+		D.I.
+	}
+	lock = T;
+	E.I.
+}
+
+removeLock() {
+	D.I.
+	lock = F;
+	E.I.
+}
+
+yield() -> give up the rest of your CPU time (to other processes)
+
+
+
+Multiple locks per critical section
+-----------------------------------
+
+lock1, lock2
+
+Ps1							Ps2
+
+lock1.getLock()				lock2.getLock()
+C.S.1						C.S.2
+lock1.removeLock()			lock2.removeLock()
+lock2.getLock()				lock1.getLock()
+C.S.2						C.S.1
+lock2.removeLock()			lock1.removeLock()
+
+
+
+Multiple critical sections
+--------------------------
+
+Ex. linked list
+
+Ps1						Ps2
+
+addNode (C.S.)			length-- (C.S.)
+...						...
+length++ (C.S.)			removeNode (C.S.)
+
+*Needs 2 locks for 2 critical sections
+
+
+Solution to C.S.
+----------------
+Ps1			Ps2
+Lock		Lock
+C.S.		C.S.
+Unlock		Unlock
+
+
+2 Types of locks
+----------------
+1) Locks for mutual exclusion (not allow 2 processes to enter C.S at same time)
+2) Locks for synchronization
+
+
+
+Locks for synchronization
+-------------------------
+
+lock1, lock2
+
+Ps1							Ps2
+
+write(x)					lock1.getLock()
+lock1.removeLock();			read(x);
+lock2.getLock();			write(y);
+read(y)						lock2.removeLock();
+
+
+Semaphores
+----------
+
+Binary Sempahore: provides mutual exclusion + synchronization
+
+sem s;
+
+P(s): [ while(s == 0); s = s-1; ]
+
+V(s): [s = s+1]
+
+*square brackets enfore atomicity
+
+
+Ex: Mutual exclusion
+--------------------
+
+semaphore s = 1; 	// binary semaphore initialized to 1 to allow one process to go through P(S) for MUTUAL EXCLUSION
+
+Ps1			Ps2
+
+p(s)		p(s)
+C.S			C.S
+v(s)		v(s)
+
+
+
+Ex: Synchronization
+-------------------
+
+semaphore s1 = 0, s2 = 0;
+
+Ps1				Ps2
+
+write(x)		p(s1)
+v(s1)			read(x)
+p(s2)			write(y)
+read(y)			v(s2)
+
+
+
+Producer/Consumer problem
+-------------------------
+* counting semaphores + binary semaphores
+* array of N
+
+semaphore empty = 5, full = 0, mutex = 1;
+
+Producer			Consumer
+--------			--------
+
+P(empty)			P(full)
+P(mutex)			P(mutex)
+produce()			consume()
+V(mutex)			V(mutex)
+V(full)				V(empty)
+
+*performance disadvantage
+* solution for M.E. and synchronization
+
+
+
+Buying a car
+------------
+* better performance using linked list
+
+semaphore empty = 5, full = 0, mutex = 1;
+
+Producer					Consumer
+--------					--------
+
+p (empty)					p (full)
+p (mutex)					p (mutex)
+	get_node_out()				get_node_out()
+v (mutex)					v (mutex)
+	produce()					consume()
+p (mutex)					p (mutex)
+	put_node_back()				put_nodeback()
+v (mutex)					v (mutex)
+v (full)					v (empty)
+
+
+
+
+Reader/Writer Problem
+---------------------
+
+semaphore writeBlock = 1, mutex = 1
+int NR = 0;
+
+Reader							Writer
+------							------
+
+P(mutex)						P (writeBlock)
+	
+	NR++						<< Write >>
+	
+	if (NR == 1)				V (writeBlock)
+		P(writeBlock)
+		
+V(mutex)
+
+<<Read>>
+
+P (mutex)
+
+	NR--
+	
+	if (NR == 0)
+		V(writeBlock)
+
+V (mutex)
+
+* NR is a C.S.
+* must protect NR with semaphore WHENEVER USED
+* ONE semaphore per C.S (write, NR)
+
+
+Passive V: 
+V(S) : [ s = s + 1 ]
+
+Active V:
+V(S): [ s = s+1; yield() ] 		// disadvantage: context switch
+
+
+P(S): [ while (s == 0) {wait} ; s = s-1 ]
+
+*busy waiting in while loop
+
+Q: Is there any good use for this? (busy waiting)
+A: Yes, in ONE particular case (system is MULTIPROCESSOR)
+	- but whole system collapses, cannot implement SEMAPHORES
+	- shared memory, both processes use value of semaphore (both processes enter C.S. -> BOOM)
+	- doesn't make sense, no need for sempahore when 2 processes run at same time on different processors
+	
+SOLUTION = TEST + SET (multiprocessor)
+---------------------
+
+TS(S) - sets s to TRUE if it is FALSE
+
+- not interruptable between testing and setting
+- keep electric signal on bus -> keep other cpu from interrupting
+
+
+Binary Semaphore: used in any system (uniprocessor, multiprocessor)
+----------------
+boolean s = F;
+
+Ps1					Ps2
+
+while(TS(s);		while (TS(s));
+C.S.				C.S.
+s = F;				s = F;
+
+
+Binary Semaphore:
+disableInterrupt() // not needed
+s = F;
+enableInterrupt() // not needed
+
+Counting sempahore:
+disableInterrupt();
+value++;
+enableInterrupt();
+
+*D.I and E.I. not needed for BINARY SEMAPHORE
+** needed for COUNTING SEMAPHORE
+
+
+Counting Semaphore: used in any system (uniproessor, multiprocessor)
+-------------------
+
+bool mutex, hold = T;
+value = 5;
+
+P(S) {
+
+	while (TS(s.mutex));
+	
+	value--;
+	
+	if (value < 0) {
+		s.mutex = F;
+		while (TS(s.hold));
+	}
+	
+	s.mutex = F;
+}
+
+
+V(S) {
+
+	while (TS(s.mutex));
+	value++; 	// if value is > 0, no one is waiting
+	
+	if (value <= 0) 	// someone is waiting
+	{
+		while (!s.hold);	// don't want to set it to false if it is already false
+		s.hold = false;
+	}
+	else
+		s.hold =false;
+
+}
+
+
+
+High Level Synchronization
+--------------------------
+
+AND synchronization:
+- obtain all semaphores at once or none at all
+- P (S1, S2)
+
+Monitors:
+- class (methods + attributes)
+
+
+Reader-Writer problem
+---------------------
+
+Monitor ReadWriter2 {
+	
+	int NR = 0;
+	int NW = 0;
+	boolean busy = false;	// true if there is already a writer in the file
+	
+	startRead()		// make sure you can read
+	{
+		while(NW > 0);
+		NR++
+	}
+	
+	finishRead()
+	{
+		NR--;
+	}
+	
+	startWrite()	// make sure you can write
+	{
+		NW++
+		while (NR > 0 || busy);
+		busy = true;
+	}
+	
+	finishWrite()
+	{
+		NW--;
+		busy = false;
+	}
+	
+}
+
+*** FAILURE (2 methods cannot execute at the same time)
+
+
+Reader-Writer Problem 2 (prioritize writers) 
+-----------------------
+
+semaphore writePending = 1,
+          readBlock = 1;
+		  writeBlock = 1;
+int NR = 0, NW = 0
+semaphore mutex1 = 1, mutex2 = 1;
+
+Reader
+-------
+
+P (writePending)
+	P (readBlock)
+		P(mutex1)
+			NR++
+			if (NR == 1)
+				P (writeBlock);
+		V(mutex1)
+	V(readBlock)
+V(writePending)
+
+<< READ >>
+
+P (mutex1)
+	NR--;
+	if (NR == 0)
+		V (writeBlock)
+V (mutex1)
+
+Writer
+-------
+
+P (mutex2)
+	NW++;
+	if (NW == 1)
+		P (readBlock)
+V (mutex2)
+P (writeBlock)
+
+<< WRITE >>
+
+V (writeBlock)
+
+P (mutex2)
+	NW--
+	if (NW == 0)
+		V (readBlock)
+V (mutex2)
+
+
+** FLAW: only works if ACTIVE V (readBlock) OR yield after V(readBlock)
+
+
+
+Monitors w/ Conditions
+----------------------
+
+*conditions:
+- wait()	// add to waiting queue
+- signal()	// signal to one process in queue
+- queue()	// waiting queue
+
+condition okToRead, okToWrite
+NR = 0
+boolean busy = F
+
+startRead() {
+
+	if (busy || okToWrite.queue > 0)
+		okToRead.wait;
+	NR++
+	if (okToWrite.queue == 0)
+		okToRead.signal;		// signals to any ready waiting in queue
+		
+}
+
+finishRead()
+{
+	NR--
+	if (NR == 0)
+		okToWrite.signal;
+}
+
+startWrite()
+{
+	if (busy || NR > 0)
+		okToWrite.wait;
+	busy = T;
+}
+
+finishWrite()
+{
+	busy = F;
+	if (okToWrite.queue > 0)
+		okToWrite.signal;
+	else
+		okToRead.signal; 	// signal to ONLY ONE reader
+		
+}
+
+Monitors
+--------
+- methods
+- attributes
+- conditions (replaces P() and V())
+
+
+
+Busy Tunnel Problem
+-------------------
+
+int NC = 0, SC = 0	// # of cars heading into tunnel
+condition busyNorth, busySouth
+
+northArrival() {
+	if (SC > 0)
+		busyNorth.wait;
+	NC++
+}
+
+northDeparture() {
+	NC--;
+	if (NC == 0)
+		while (busyNorth.queue > 0)
+			busyNorth.wait; 
+}
+
+southArrival() {
+	if (NC > 0)
+		busySouth.wait;
+	SC++;
+}
+
+southDeparture() {
+	SC--;
+	if (SC == 0)
+		while (busySouth.queue > 0)
+			busySouth.wait
+}
+
+Dining Philosophers Problem
+---------------------------
+
+enum Status = {thinking, hungry, eating}
+Status state[N] 	//array of states
+
+for (int i = 0; i < N; i++)
+   state[i] = thinking;
+
+condition self[N]	// every philosopher has to force himself to wait
+
+pickUpForks(int i) {
+   state [i] = hungry;
+   test(i)
+
+   if (state[i] != eating)
+      self[i].wait;
+}
+
+putDownForks (int i) {
+   state[i] = thinking;
+   test ((i - 1) mod N);
+   test ((i + 1) mod N);
+}
+
+test (int i) {
+   if (state[(i-1) mod N] != eating && state[(i+1) mod N] != eating && state[i] == hungry) {
+      state [i] = eating;
+      self[i].signal;
+   }
+}
+
+
+Solution will only work if provides:
+1) mutual exclusion
+2) good progress (if starvation occurs, cannot progress)
+3) deadlock-free
+
+
+Two-Task Solution
+-----------------
+   - assumes all you have are 2 processes communicating
+
+Solution 1:
+
+turn = 0; //which process's turn is it?
+
+ECS (int t) {
+   while (turn != t)
+       yield();
+}
+
+LCS (int t) {
+   turn = 1-t;
+}
+
+**WORKS for M.E. + deadlock-free, FAILS for progress
+
+
+Solution 2:
+
+flag[0] = F;
+flag[1] = F;
+
+ECS (int t) {
+   flag[t] = T;
+   int other = 1-t;
+   while (flag[other] == T)
+      yield();
+}
+
+LCS (int t) {
+   flag[t] = F;
+}
+
+** WORKS for M.E. and starvation-free (progress), FAILS for deadlock-free
+
+
+Solution 3:
+
+flag[0] = F;
+flag[1] = F;
+int turn;
+
+ECS (int t) {
+   flag[t] = T;
+   int other = 1-t;
+   turn = other;
+
+   while (flag[other] == T && turn == other)
+      yield();
+}
+
+LCS (int t) {
+   flag[t] = F;
+}
+
+** WORKS for all solution requirements
+
+
+
+MEMORY MANAGER
+--------------
+
+Loader: binds addresses from secondary memory to main memory
+
+Address space:
+- set of addresses that a process can see
+- ex: AS = {200, 201, 202, ... , 8152, 9315}
+- does not need to be part of the process, can be from a different library
+
+* MM is too small for the size of processes --> bad for multiprogramming
+
+Executable Memory:
+- what memory the CPU can see (connected by bus)
+- CPU registers
+- cache memory
+- main memory
+
+Secondary memory:
+- rotation magnetic memory (hard disk)
+- optical memory (cd-rom)
+- sequentially access memory (tape)
+
+Executable file: a data structure 
+
+Car c1 = new Car();  -> dynamically allocated
+                     -> take space away from process's heap (NOT additional memory)
+
+
+Fixed-size partitions:
+- internal fragmentation occurs 
+- allocate memory for each process by a specific size
+
+Fragment: part of memory not used by process
+
+Variable-size partitions:
+- external fragmentation occurs
+- allocated memory exactly what each process needs
+- as machine runs, more processes run -> more external fragments occur
+
+Problem (external fragmentation)
+Solution: Compaction
+ - move processes (instructions) within main memory
+ - shift instructions upwards to new address
+
+Compaction:
+	Problem -> after shfiting, addresses become corrupt
+	Solution:
+	- let loader load programs again
+	- bind addresses again to new addresses after shifting
+	- SLOW (I/0 operation)
+
+Delay Compaction:
+- BEST FIT (gives less fragmentation)
+- WORST FIT (gives the most fragmentation)
+- Worst fit is better than Best fit 
+	-> you result in a bigger fragmentation, space to put another program
+
+Solution to Compaction
+----------------------
+
+Virtual addresses: all instructions of a process start from 0
+Loader: just loads (no binding addresses)
+CPU: 2 registers (starting address (virtual), offset)
+     add registers = location of instruction in S.M. (physical address)
+
+If compacting, only need to change starting address, offset stays the same
+
+Corrupt addresses when context switch after compacting
+- solution: compactor will update the starting address of each process after compacting
+
+Compact - Dynamic address binding
+---------------------------------
+- virtual addresses
+- when loading, have starting address and offset registers
+- update starting address after compacting for each process
+
+Helping security manager:
+- compare if address is within limits of your memory space
+- S.A, offset, limit registers
+
+
+
+
+Memory Space Allocation For Processes
+-------------------------------------
+Main memory = 1000
+
+Ps1 = 900	(Can run, but not much space for multiprogramming)
+Ps1 = 1000	(Can run, but now uniprogramming)
+Ps1 = 4100 	(Can run, but break it into pieces. Load pieces of program as needed from SM to MM)
+
+
+Operating System lies that MM is extremely huge
+-----------------------------------------------
+CPU only sees one instruction at a time
+- cin >> x >> y (text segment)
+- store in registers x,y (swap out text segment for data segment)
+- THIS IS HEAVY
+
+Virtual memory
+-------------
+- an idea (make MM seem big)
+
+1) virtual addresses
+2) break process into segments (in SM)
+3) swapping segments (MM <-> SM)
+
+
+Memory Layout - segmentation
+-------------
+
+Text Segment
+Initialised Data Segment
+Unitialised Data Segment
+Heap storage
+Stack segment
+Environment variables, etc...
+
+Swapping can cause INTERNAL FRAGMENTATION
+- swapping a segment (1000 words) for a segment (100 wrods)
+- BAD
+- Solution: PAGING
+
+
+
+Paging
+------
+Pages: secondary memory broken into equal pieces
+
+Page size = 100
+Number of pages = address size / page size
+
+Frames: main memory
+
+Virtual address = 3819
+Page size = 100
+
+Floor(3819/100) = 38 = page number
+
+
+Page table
+----------
+- Tells if page is in memory or not
+- Indicates which frame a page is in 
+- Omega symbol or another symbol indicating no frame occupied
+
+
+Find exact physical address
+---------------------------
+Ex: 
+
+VA: 3819
+VA % page size = address of instruction
+
+Page # -> frame #
+
+(Frame # x Frame size) + instruction address = exact physical address
+
+*no need for CPU to calculate, just insert into PC
+
+
+Address translation
+-------------------
+i = 3257 (V.A)
+c = 100  (page size)
+
+page number = Floor (i / c) = Floor (3257/100) = 32
+
+Offset : line number = i mod c = 3257 % 100 = 57
+
+Page number 32 in page frame 19 (from page table)
+
+Physical address = (page frame x frame size) + instruction address
+= (19 x 100) + 57 = 1957
+
+
+Page fault: retrieve page from SM swap into MM
+
+
+Page reference stream: sequence of page numbers referenced by process during execution
+
+Choosing which frame to replace:
+- keep frames that you will need soon
+
+Belady's Optimal Algorithm:
+*look forward until you find (# frames - 1) to keep
+
+LFU:
+conflicts: 
+- keep or remove counters?
+- O(#F)
+
+Best use: locality (while loop only on 1 page)
+Worst use: get out of locality
+
+
+*using more memory costs multiprogramming
+*using memory = solution to page faults? NO
+
+Allocation tolerance: number of times frame was not used until giving back
+(flexible # of frames)
+
+
+Belady's Anomaly:
+- algorithm is not a stack algorithm
+- "If you give me MORE frames, I get MORE page faults"
+- lose memory and worst performance
+- FIFO algorithm suffers from this
+
+
+Memory access time:
+- time CPU accesses data from MM
+
+Effective access time:
+EAT = ((1-p) * ma) + (P * page fault time)
+
+Ex.
+ma = 100ns
+PFT = 25 ms
+
+EAT = ((1-0.2) * 100) + (0.2 * 25000000) = 5 000 080 ns
+
+Ex.
+ma = 100ns
+PFT = 25 ms
+
+Limit to performance degradation of 10% max
+
+110 > 100 + 25 000 000 = p
+
+10 > 25 000 000 * p
+
+p < 10 / 25 000 000
+p < 0.0000004
+
+*By this we "should" scrap paging
+
+
+Random replacement
+- O(1)
+- decides what page to put into swap area to replace with a page needed to go in MM
+
+
+How long it take to execute an instruction
+------------------------------------------
+
+page table in MM:
+MA * 2
+
+Page table in cache:
+MA + access to cache
+
+Page table too big for cache? Break it between cache and MM:
+40% in cache
+60% in MM
+
+0.4 * (ma + cache access) + 0.6 * (ma * 2)
+
+page table too big for cache and MM, put in SM:
+60% in SM
+30% in MM
+10% in cache
+
+0.1 * (ma + cache access) + 0.3 * (ma * 2) + 0.6 * page fault time
+
+
+Calculating page size?
+----------------------
+Less amount = more page faults
+Bigger amount = less processes in multiprogramming
+
+*cannot agree about page size? allow segmentation
+
+
+CPU scheduling
+--------------
+- process will wait to get CPU
+- once gets CPU, adopts 2 strategies (nonpreemptive, preemptive)
+
+Nonpreemptive: once you get CPU, don't give it up until you are finished your job
+Preemptive: I can kick you out if I need the CPU
+
+Ready queue/list:
+- data structure that is a queue of pointers to a process descriptor
+
+Information about a process in process descriptor, process control block
+
+Enqueuer: places pointer in ready queue/list of a process in ready state
+Dispatcher: decided which process to run based on a priority
+Context switcher: performs context switch between process in CPU and scheduler
+
+*Process can be put in waiting queue if resource (printer) is busy
+
+Context switching:
+P8 <-> scheduler <-> P4
+
+Reason for CPU scheduling: PERFORMANCE
+
+Performance Measurement:
+Service time: amount of time (CPU cycles) does a process need to finish
+Wait time: amount of time a process needs to wait for CPU (turnaround time - service time)
+Response time: amount of time from when a process is READY until it is considered by CPU for the FIRST TIME
+Turnaround time: wait time + service time, amount of time between process in ready state until it is completed
+
+Non-preemptive scheduling strategies:
+- First come first served
+- Shortest job next 	* a process cna wait forever
+- Priority		* unpredictable
+- Deadline		* may need to abort some processes
+
+* no non-preemptive scheduling strategies are good for TIMESHARING
+
+First Come First Serve (preemptive) -> IMPOSSIBLE
+
+Preemptive Scheduling
+----------------------
+Response time is most IMPORTANT
+
+Round robin scheduling:
+- each process is given a time quantam (time with CPU)
+- disadvantage: context switch
+
+Round-robin scheduling with context switching
+- still perfect
+
+Round-robin dominates TIMESHARING
+
+Best thing about round-robin: it's fair
+Worst thing about round-robin: it's fair (lost priority)
+
+Solution to priority? Multi-level queues
+
+Multi-level queue w/ feedback
+-----------------------------
+- if a process ages, move it up to queue above it
+- all will eventually terminate
+- artifically changing priority (it was at lower queue for a reason and now moved up into higher queue)
+- if pushed up and priority is too low, push it back down
+
+- longer processes will be pushed down the queues
+
+* no guarantee that a process will ever exit
+* penalizes longer processes
+* longer processes -> I/0
+* but makes sense (for a reason), I/0 does not need much CPU execution
+
+
+File Management
+---------------
+
+Files -> secondary memory
+
+In SM, files are stored as group of blocks
+
+Storage blocks -> Stream block translation -> File position (File manager, low-level files)
+
+
+Low level files
+---------------
+
+File descriptors - file system keeps this data structure that stores details about the file. located in SM
+
+Ex: external  name, owner, user, length
+
+A version of the file descriptor is sent to MM
+
+High level files -> more translation from storage blocks to records
+
+
+Q: How do we keep track of blocks that belong to a file?
+
+Contiguous Block Allocation
+---------------------------
+
+inode: tells you where the 1st block is
+
+- Find first block
+- 5th block? multiply by 5
+
+Complexity: O(1)   **advantage
+Sequential	** disadvantage
+(unable to find space for other data)
+
+Linked List Allocation
+----------------------
+Disadvantage: O(n) 
+Advantage: scattered data (random access)
+
+
+Ex: 64-bit system -> address is 8 bytes
+A block is 256 bytes
+8/256 used for pointer
+8/256 used for length
+
+*using 16/256 of space per block -> MEMORY LOSS
+
+Disadvantage: if you lose one block in the middle, the file is gone
+Solution: double linked list -> results in MORE memory loss
+
+
+Index Allocation
+-----------------
+*using index table to reference each block
+
+Advantages:
+- O(1)
+- Lose a block? Don't lose whole file, just that block
+
+Disadvantages:
+- bigger file -> bigger table
+- pointer at end of first table to second table
+O(3) (access table, go to last block, go to second table)
+- pointer is in last block
+- if we lose pointer, we lost the file? double the pointers
+
+Q: How big should the index table be?
+
+UNIX File Structure
+-------------------
+
+1 block -> direct pointer from index table
+2 block -> direct pointer from index table
+...
+12 blocks -> direct pointer from index table
+
+System: 4kb, 32-bit system (pointer is 4 bytes)
+
+4000/4 = 1000 pointers in 1 block
+
+A block can hold (12 + 1000 + 1000 000 + 10^9) x 4KB
+
+
+Losing a pointer
+----------------
+How fatal?
+
+Ex: 12+1000+100 000+ 1
+14th block lost? 3 blocks/ total is lost (almost 0)
+
+Worst case: Block 13, 1/13 blocks lost (worst)
+
+
+Size of file
+------------
+4kb (block size)
+32-bit system
+
+4000/4 = 1000 pointers in a block
+
+(12 + 1000 + 1000 x 1000 + 1000 x 1000 x 1000) x 4kb
+
+Largest disk size -> 2^32
+
+
+Keeping track of unallocated blocks (free memory)
+-------------------------------------------------
+
+Linked List:
+O(1) 	*take first block, move head to second
+memory loss? whole list is empty
+pointer loss? reconfigure memory
+
+Index table: works, BUT table has to be as big as the amount of free blocks (A LOT)
+
+Bit map: 0 and 1's in table.
+0 is taken, 1 is ree
+
+O(n) to find a free block (disadvantage)
+
+Enchance performance: start exactly at index from where a block was taken and proceed sequentially
+
+
+Device Manager (cont.)
+----------------------
+
+Optimize access on rotating disk
+
+Ex: track 12 -> track 15
+7 units of time to move from tack to track
+
+3*7 = 21
+
+(X + YK) - time in ms to seek a track that is Y tracks away
+
+K = 3ms
+(X + 3) to move from 12 to 13
+
+Ex: 12, 123, 50, 13, 124 and 49
+
+First Come First Serve
+----------------------
+
+(X + 3*(123-12)) +
+(X + 3*(123-50)) +
+(X + 3*(50-13)) + 
+(X + 3*(124-13)) + 
+(X + 3*(124-49)) 
+
+Total: 5X + 921 ms
+
+Shortest Seek Time First (SSTF)
+-------------------------------
+
+(X + 3*(13-12)) +
+(X + 3*(49-13)) +
+(X + 3*(50-49)) + 
+(X + 3*(123-50)) +
+(X + 3*(124-123))
+
+Total: 5X + 327 ms
+
+- Better than FCFS
+- Some tracks might starve (serve smaller tracks, larger tracks will stave & vice-versa)
+
+
+Scan
+--------
+
+Go to highest track and back down to 0
+
+- If starts at 2, track 1 will starve
+
+track 2 -> track 398 -> track 1
+398 + 399 = 797 ms of starvation for track 1
+
+
+Circular Scan
+-------------
+
+Homing: 0 time to go from highest track to lowest
+
+
+Disadvantage of C.Scan and Scan (cannot predict next track request)
+
+
+Scan - go to highest track and back down to 0
+Look - go to highest request to lowest request
+C.Scan - go to highest track back down to 0 (with Homing takes 0 time)
+C.Look - go to highest request back down to 0 (with Homing)
+
+
+Deadlock
+--------
+
+4 conditions to occur at same time for deadlock to happen:
+1) mutual exclusion - one process at a time can use the resource
+2) hold and wait - one process holds a resource and waiting for another resource held by another process
+3) Circular wait - two processes wait for one another
+4) No preemption - the process holding the resource is the only one that can release it
+
+Resource allocation graph
+-------------------------
+
+No cycles = no deadlock
+Cycles = deadlock? Not necessarily, need to analyse
+
+Solution to deadlock? 
+1) M.E. ** cannot break
+
+2) Hold-and-wait
+- before I take another resource, I will release the one i was holding
+
+** cannot break 
+why? Print() -> HD -> MM -> Printer 
+Cannot release HD when taking MM (may not be done transferring data)
+
+3) Circular wait
+
+Total ordering: give every device a number (like priority)
+
+HD = 3
+MM = 12
+Scanner = 8
+Printer = 49
+
+Works for print(),  not for scan() (MM needs to be done first before HD)
+
+** cannot break
+
+4) No preemption 
+OS cannot kill a process on behalf of the user
+
+**Cannot break
+
+
+Deadlock prevention: IMPOSSIBLE
+
+Deadlock Avoidance
+------------------
+- check a process and what resource it has, check every other process running and what it will need in the future
+
+IMPOSSIBLE
+
+Deadlock Detection
+------------------
+
+Resource-allocation graph -> wait-for graph
+*if loop exists, deadlock occurs
+
+ULTIMATE ANSWER: Operating system can DO NOTHING about deadlock

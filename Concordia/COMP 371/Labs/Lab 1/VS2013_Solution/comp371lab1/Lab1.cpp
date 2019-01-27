@@ -1,0 +1,188 @@
+//HW1 Comp 371 Fall 2016
+//Lab 1
+//modified from http://learnopengl.com/
+
+#include "stdafx.h"
+
+#include "..\glew\glew.h"	// include GL Extension Wrangler
+#include "..\glfw\glfw3.h"	// include GLFW helper library
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+// Window dimensions
+const GLuint WIDTH = 800, HEIGHT = 600;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+	std::cout << key << std::endl;
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+// The MAIN function, from here we start the application and run the game loop
+int main()
+{
+	std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
+	// Init GLFW
+	glfwInit();
+	// Set all the required options for GLFW
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	// Create a GLFWwindow object that we can use for GLFW's functions
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Triangle", nullptr, nullptr);
+	if (window == nullptr)
+	{
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+
+	glfwMakeContextCurrent(window);
+
+	// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
+	glewExperimental = GL_TRUE;
+	// Initialize GLEW to setup the OpenGL Function pointers
+	if (glewInit() != GLEW_OK)
+	{
+		std::cout << "Failed to initialize GLEW" << std::endl;
+		return -1;
+	}
+
+	// Read in the Vertex Shader
+	string vertex_shader_path = "vertex.shader";
+	string VertexShaderCode;
+	std::ifstream VertexShaderStream(vertex_shader_path, ios::in);
+
+	if (VertexShaderStream.is_open()) 
+	{
+		string Line = "";
+		while (getline(VertexShaderStream, Line))
+			VertexShaderCode += "\n" + Line;
+		VertexShaderStream.close();
+	}
+
+	else 
+	{
+		printf("Impossible to open %s. Are you in the right directory ?\n", vertex_shader_path.c_str());
+		getchar();
+		exit(-1);
+	}
+	// Vertex Shader
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	char const * VertexSourcePointer = VertexShaderCode.c_str();
+
+	glShaderSource(vertexShader, 1, &VertexSourcePointer, NULL);
+	glCompileShader(vertexShader);
+
+	// check for compile time errors
+	GLint success;
+	GLchar infoLog[512];
+
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+	if (!success) 
+	{
+		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+	}
+
+	// Read in the Fragment Shader
+	string fragment_shader_path = "fragment.shader";
+	std::string FragmentShaderCode;
+	std::ifstream FragmentShaderStream(fragment_shader_path, std::ios::in);
+
+	if (FragmentShaderStream.is_open())
+	{
+		std::string Line = "";
+		while (getline(FragmentShaderStream, Line))
+			FragmentShaderCode += "\n" + Line;
+		FragmentShaderStream.close();
+	}
+
+	else
+	{
+		printf("Impossible to open %s. Are you in the right directory?\n", fragment_shader_path.c_str());
+		getchar();
+		exit(-1);
+	}
+
+	// Fragment shader
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
+	glShaderSource(fragmentShader, 1, &FragmentSourcePointer, NULL);
+	glCompileShader(fragmentShader);
+
+	// Check for compile time errors
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+	if (!success)
+	{
+		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+	}
+
+	// Link shaders
+	GLuint shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	// Check for linking errors
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+
+	if (!success) {
+		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	}
+
+	glDeleteShader(vertexShader); //free up memory
+	glDeleteShader(fragmentShader);
+
+	glUseProgram(shaderProgram);
+
+	GLfloat vertices[] = {
+		0.0f, 0.5f, 0.0f,  // Top
+		0.5f, -0.5f, 0.0f,  // Bottom Right
+		-0.5f, -0.5f, 0.0f,  // Bottom Left
+	};
+
+	GLuint VAO, VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
+
+	glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs), remember: do NOT unbind the EBO, keep it bound to this VAO
+
+
+	// Define the viewport dimensions
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
+	glViewport(0, 0, width, height);
+
+	glfwSetKeyCallback(window, key_callback);
+
+	// Game Loop
+	while (!glfwWindowShouldClose(window)) {
+		glfwPollEvents();
+		glfwSwapBuffers(window); // dual buffering
+	}
+
+	// Terminate GLFW, clearing any resources allocated by GLFW.
+	glfwTerminate();
+	return 0;
+}
