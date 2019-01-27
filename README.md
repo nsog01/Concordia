@@ -1,11 +1,8 @@
 # Concordia
-====
 Everything from my undergrad at Concordia is in this repo.
 I want people to fork and contribute to this repo and have this as an organically evolving open source root for academic resources for anyone willing to learn.
 
 ## Setting up
-----
-
 Initially, you will need to install git.
 Then, to download the content of this repository you must type `git clone https://github.com/jhubscher/Concordia.git` or `git@github.com:jhubscher/Concordia.git` into your terminal.
 
