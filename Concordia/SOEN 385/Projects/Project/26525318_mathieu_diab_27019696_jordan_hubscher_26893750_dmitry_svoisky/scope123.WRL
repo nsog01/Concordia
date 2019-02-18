@@ -1,0 +1,17 @@
+#VRML V2.0 utf8
+# Created with V-Realm Builder v2.0
+# Integrated Data Systems Inc.
+# www.ids-net.com
+
+DEF Scope Transform {
+  scale 0.4 1.5 0.499999
+  rotation 0 -1 0 0.18604
+  children Shape {
+    appearance Appearance {
+      material Material {
+      }
+    }
+    geometry Cylinder {
+    }
+  }
+}
